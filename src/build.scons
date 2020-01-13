@@ -1,0 +1,30 @@
+import os.path
+
+Import('*')
+
+
+def filter_cc(list):
+    return [x for x in list if os.path.splitext(str(x))[1] in [".cc"]]
+
+
+common_files = Glob('*.cpp') + Glob('aux/*.cpp') + Glob('utils/*.cpp') + Glob('*.c')
+mitra_files = Glob('mitra/*.cpp')
+qos_files = Glob('qos/*.cpp')
+static_files = Glob('static/*.cpp')
+horus_files = Glob('horus/*.cpp')
+
+protos = env.SConscript('protos/build.scons', exports='env')
+
+common_objs = env.Object(common_files, CPPPATH = ['.'] + env.get('CPPPATH', []))
+mitra_objs = env.Object(mitra_files + filter_cc(protos["mitra"]), CPPPATH = ['.'] + env.get('CPPPATH', []))
+qos_objs = env.Object(qos_files, CPPPATH = ['.'] + env.get('CPPPATH', []))
+static_objs = env.Object(static_files, CPPPATH = ['.'] + env.get('CPPPATH', []))
+horus_objs = env.Object(horus_files, CPPPATH = ['.'] + env.get('CPPPATH', []))
+
+objs = {}
+objs["mitra"] = mitra_objs + common_objs
+objs["qos"] = qos_objs + common_objs
+objs["static"] = static_objs + common_objs
+objs["horus"] = horus_objs + common_objs
+
+Return('objs')

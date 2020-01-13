@@ -1,0 +1,14 @@
+Import('*')
+
+mitra_proto_out = env.Protoc([], 'mitra.proto',
+       PROTOPATH=[Dir('.')], PROTOCPPOUT=Dir('..').abspath)
+
+mitra_gprc_out = env.Grpc([], 'mitra.proto',
+       PROTOPATH=[Dir('.')], GRPCPPOUT=Dir('..').abspath)
+mitra_out = mitra_proto_out + mitra_gprc_out
+
+
+out = {}
+out['mitra'] = mitra_out
+
+Return('out')
