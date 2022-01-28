@@ -33,7 +33,7 @@ $ cd ..
 
 ### Installing GRPC
 ```sh
-$ git clone -b $(curl -L https://grpc.io/release) https://github.com/grpc/grpc
+$ git clone -b v1.26.0  https://github.com/grpc/grpc
 $ cd grpc/
 $ git submodule update --init
 add -Wno-unused-variable at the end of line 356 in Makefile
